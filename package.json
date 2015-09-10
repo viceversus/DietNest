@@ -10,6 +10,7 @@
     "tessel": "^0.3.23"
   },
   "devDependencies": {
+    "baconjs": "^0.7.73",
     "tessel": "^0.3.23"
   },
   "scripts": {

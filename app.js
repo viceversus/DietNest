@@ -1,6 +1,8 @@
 var tessel = require('tessel');
 var servolib = require('servo-pca9685');
 var ambientlib = require('ambient-attx4');
+var Bacon = require('baconjs');
+var NoiseTransformer = require('./noise_transformer');
 require('q');
 
 var ambient = ambientlib.use(tessel.port['A']);
@@ -46,6 +48,10 @@ servo.on('ready', function() {
 var motor = new Motor(servo2);
 
 ambient.on('ready', function () {
+
+  var soundEventStream = Bacon.fromEvent(ambient, 'sound');
+  var smoothedSoundEventStream = NoiseTransformer.pipe(soundEventStream);
+
   ambient.on('sound', function(sdata) {
     console.log(sdata);
     motor.move(sdata[0] * 10);
